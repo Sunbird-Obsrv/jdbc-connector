@@ -1,0 +1,30 @@
+{
+  "type": "connector",
+  "metadata": {
+    "id": "jdbc-connector",
+    "name": "JDBC Connector",
+    "type": "source",
+    "category": "Database",
+    "description": "Pull data from a jdbc compliant database",
+    "technology": "scala",
+    "licence": "MIT",
+    "owner": "Sunbird",
+    "icon": "",
+    "mainClass": "org.sunbird.obsrv.connector.JDBCConnector"
+  },
+  "source": {
+    "database": {
+      "type": "$input.databaseType",
+      "host": "$input.hostname",
+      "port": "$input.port",
+      "name": "$input.name",
+      "username": "$input.username",
+      "pwd": "$input.password"
+    },
+    "table": "$input.table",
+    "timestamp-column": "$input.timestampColumn",
+    "batch-size": "$input.batchSize",
+    "max-batches": "$input.maxBatches",
+    "data-format": "json"
+  }
+}
