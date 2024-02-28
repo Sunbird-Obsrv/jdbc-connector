@@ -2,9 +2,9 @@ package org.sunbird.obsrv.connector
 
 import org.sunbird.obsrv.connector.model.Models.ConnectorContext
 
-class PostgresDriver extends IJDBCDriver {
+class PostgresSource extends IJDBCSource {
 
-  override def getName(): String = "org.postgresql.Driver"
+  override def getDriver(): String = "org.postgresql.Driver"
 
   override def countQuery(table: String, timestampColumn: String, timestampOpt: Option[AnyRef]): String = {
     timestampOpt.map(timestamp => {
