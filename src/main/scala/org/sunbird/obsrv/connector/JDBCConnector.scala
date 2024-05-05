@@ -43,11 +43,11 @@ class JDBCSourceConnector extends ISourceConnector {
     val dfList = for (idx <- 1 to batches) yield {
       fetchBatch(spark, ctx, jdbcConfig, (idx - 1) * jdbcConfig.batchSize)
     }
-    val df = dfList.reduce((a, b) => a.join(b))
+    val df = dfList.reduce((a, b) => a.union(b))
     val lastTimestamp: Any = df.agg(max(col(jdbcConfig.timestampColumn))).head().get(0)
     val lastTimestampDF = getAllTimestampRecords(spark, ctx, jdbcConfig, lastTimestamp)
     jdbcConfig.source.updateLastTimestamp(ctx, lastTimestamp)
-    df.join(lastTimestampDF).distinct()
+    df.union(lastTimestampDF).distinct()
   }
 
   private def getJDBCConfig(config: Config): JDBCConfig = {
@@ -77,7 +77,7 @@ class JDBCSourceConnector extends ISourceConnector {
   }
 
   private def fetchBatch(spark: SparkSession, ctx: ConnectorContext, jdbcConfig: JDBCConfig, offset: Int): DataFrame = {
-    val selectQuery = jdbcConfig.source.batchQuery(jdbcConfig.table, jdbcConfig.timestampColumn, offset, jdbcConfig.batchSize, ctx.state.getState[AnyRef]("lastFetchTimestamp"))
+    val selectQuery = jdbcConfig.source.batchQuery(jdbcConfig.table, jdbcConfig.timestampColumn, offset, jdbcConfig.batchSize, ctx.state.getState[AnyRef]("lastRecordTimestamp"))
     readData(spark, jdbcConfig, selectQuery)
   }
 
