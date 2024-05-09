@@ -23,10 +23,10 @@ class PostgresSource extends IJDBCSource {
   }
 
   override def timeStampQuery(table: String, timestampColumn: String, timestamp: Any): String = {
-    s"SELECT * FROM $table WHERE $timestampColumn = '${timestamp.asInstanceOf[String]}'"
+    s"SELECT * FROM $table WHERE $timestampColumn = '${timestamp}'"
   }
 
   override def updateLastTimestamp(ctx: ConnectorContext, lastTimestamp: Any): Unit = {
-    ctx.state.putState[String]("lastTimestamp", lastTimestamp.asInstanceOf[String])
+    ctx.state.putState[String]("lastRecordTimestamp", s"${lastTimestamp}")
   }
 }
