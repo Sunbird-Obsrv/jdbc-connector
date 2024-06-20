@@ -8,7 +8,7 @@
     <name>JDBC Connector</name>
 
     <properties>
-        <spark.version>3.1.0</spark.version>
+        <spark.version>3.5.1</spark.version>
         <scala.version>2.12.11</scala.version>
         <scala.maj.version>2.12</scala.maj.version>
         <scoverage.plugin.version>1.4.0</scoverage.plugin.version>
@@ -46,19 +46,22 @@
             <artifactId>connector-sdk-spark</artifactId>
             <version>1.0.0</version>
         </dependency>
-        <!--
         <dependency>
-            <groupId>org.sunbird.obsrv.connector</groupId>
-            <artifactId>connector-sdk-spark</artifactId>
-            <version>1.0.0</version>
-            <type>test-jar</type>
-            <scope>test</scope>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql-kafka-0-10_${scala.maj.version}</artifactId>
+            <version>${spark.version}</version>
         </dependency>
-        -->
+<!--        <dependency>-->
+<!--            <groupId>org.sunbird.obsrv.connector</groupId>-->
+<!--            <artifactId>connector-sdk-spark</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--            <type>test-jar</type>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.5.4</version>
+            <version>42.7.3</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -77,9 +80,7 @@
             <version>3.0.6</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
-
 
     <build>
         <sourceDirectory>src/main/scala</sourceDirectory>
@@ -143,7 +144,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.scoverage</groupId>
                 <artifactId>scoverage-maven-plugin</artifactId>
@@ -157,22 +157,62 @@
 
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
                 <executions>
                     <execution>
-                        <id>make-assembly</id>
+                        <id>distro-assembly</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/src.xml</descriptor>
+                            </descriptors>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <!-- <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <!-- Run shade goal on package phase -->
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>com.google.code.findbugs:jsr305</exclude>
+                                </excludes>
+                            </artifactSet>
+                            <filters>
+                                <filter>
+                                    <!-- Do not copy the signatures in the META-INF folder. Otherwise, this might cause SecurityExceptions when using the JAR. -->
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>org.sunbird.obsrv.connector.JDBCConnector</mainClass>
+                                </transformer>
+                                <!-- append default configs -->
+                                <!--                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">-->
+                                <!--                                    <resource>application.conf</resource>-->
+                                <!--                                </transformer>-->
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin> -->
         </plugins>
     </build>
 </project>
