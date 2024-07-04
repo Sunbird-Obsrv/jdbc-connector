@@ -8,7 +8,7 @@
         "type": "source",
         "category": "Database",
         "description": "The JDBC Connector is used to move data from any JDBC Complaint Database to the Obsrv platform",
-        "technology": "python",
+        "technology": "scala",
         "runtime": "spark",
         "licence": "MIT",
         "owner": "Sunbird",

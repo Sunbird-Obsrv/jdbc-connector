@@ -55,8 +55,8 @@ class JDBCSourceConnector extends ISourceConnector {
     JDBCConfig(
       source = getDriver(config.getString("source_database_type")), url = jdbcUrl,
       userName = config.getString("source_database_username"), userPwd = config.getString("source_database_pwd"),
-      table = config.getString("source_table"), timestampColumn = config.getString("source_timestamp-column"),
-      batchSize = config.getInt("source_batch-size"), numBatches = config.getInt("source_max-batches")
+      table = config.getString("source_table"), timestampColumn = config.getString("source_timestamp_column"),
+      batchSize = config.getInt("source_batch_size"), numBatches = config.getInt("source_max_batches")
     )
   }
 
