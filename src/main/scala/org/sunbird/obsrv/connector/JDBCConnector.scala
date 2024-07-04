@@ -51,12 +51,12 @@ class JDBCSourceConnector extends ISourceConnector {
   }
 
   private def getJDBCConfig(config: Config): JDBCConfig = {
-    val jdbcUrl = s"jdbc:${config.getString("source.database.type")}://${config.getString("source.database.host")}:${config.getString("source.database.port")}/${config.getString("source.database.name")}"
+    val jdbcUrl = s"jdbc:${config.getString("source_database_type")}://${config.getString("source_database_host")}:${config.getString("source_database_port")}/${config.getString("source_database_name")}"
     JDBCConfig(
-      source = getDriver(config.getString("source.database.type")), url = jdbcUrl,
-      userName = config.getString("source.database.username"), userPwd = config.getString("source.database.pwd"),
-      table = config.getString("source.table"), timestampColumn = config.getString("source.timestamp-column"),
-      batchSize = config.getInt("source.batch-size"), numBatches = config.getInt("source.max-batches")
+      source = getDriver(config.getString("source_database_type")), url = jdbcUrl,
+      userName = config.getString("source_database_username"), userPwd = config.getString("source_database_pwd"),
+      table = config.getString("source_table"), timestampColumn = config.getString("source_timestamp-column"),
+      batchSize = config.getInt("source_batch-size"), numBatches = config.getInt("source_max-batches")
     )
   }
 
