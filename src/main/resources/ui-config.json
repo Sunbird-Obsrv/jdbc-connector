@@ -1,179 +1,119 @@
 {
     "postgres-connector": {
         "schema": {
+            "title": "Connector Config",
             "type": "object",
             "properties": {
-                "connector_config": {
-                    "title": "Connector Config",
+                "source": {
+                    "title": "Storage Source",
                     "type": "object",
-                    "encrypt": true,
                     "properties": {
-                        "databaseType": {
-                            "type": "string",
-                            "title": "Database Type",
-                            "enum": [
-                                "PostgreSQL",
-                                "MySQL"
-                            ],
+                        "database": {
+                            "type": "object",
+                            "title": "Database Information",
                             "fieldDescription": [
                                 {
                                     "type": "string",
-                                    "description": ""
+                                    "description": "It is recommended to create a new user and grant only SELECT permission on the table above. The table needs to have a timestamp field. Periodically we will look for records updated/created based on the selected timestamp field and will sync them to our platform."
+                                }
+                            ],
+                            "properties":{
+                                "type": {
+                                    "type": "string",
+                                    "title": "Database Type",
+                                    "default": "PostgreSQL"
+                                },
+                                "host": {
+                                    "type": "string",
+                                    "title": "Host",
+                                    "pattern": "/^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/[^\s]*)?|localhost(?:\/[^\s]*)?|((?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/"
+                                },
+                                "port": {
+                                    "type": "number",
+                                    "title": "Port",
+                                    "minimum": 1,
+                                    "maximum": 65535
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "title": "Database Name",
+                                    "pattern": "^[a-zA-Z0-9_]{1,64}$"
+                                },
+                                "username": {
+                                    "type": "string",
+                                    "title": "Database Username"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "title": "Database Password"
+                                }
+                            }
+                        },
+                        "table": {
+                            "type": "string",
+                            "title": "Table Name",
+                            "pattern": "^[a-zA-Z_][a-zA-Z0-9_.]{0,62}$",
+                            "fieldDescription": [
+                                {
+                                    "type": "string",
+                                    "description": "Enter the name of Database table."
                                 }
                             ]
-                        }
-                    },
-                    "dependencies": {
-                        "databaseType": {
-                            "oneOf": [
+                        },
+                        "timestamp-column": {
+                            "type": "string",
+                            "title": "Timestamp Column",
+                            "fieldDescription": [
                                 {
-                                    "properties": {
-                                        "databaseType": {
-                                            "enum": [
-                                                "PostgreSQL",
-                                                "MySQL"
-                                            ]
-                                        },
-                                        "connection_info": {
-                                            "title": "Connection Information",
-                                            "type": "object",
-                                            "properties": {
-                                                "host": {
-                                                    "type": "string",
-                                                    "title": "Database Host",
-                                                    "pattern": "/^(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}(?:\/[^\\s]*)?|localhost(?:\/[^\\s]*)?|((?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/",
-                                                    "fieldDescription": [
-                                                        {
-                                                            "type": "string",
-                                                            "description": ""
-                                                        }
-                                                    ]
-                                                },
-                                                "port": {
-                                                    "type": "number",
-                                                    "title": "Database Port",
-                                                    "minimum": 1,
-                                                    "maximum": 65535,
-                                                    "fieldDescription": [
-                                                        {
-                                                            "type": "string",
-                                                            "description": ""
-                                                        }
-                                                    ]
-                                                },
-                                                "name": {
-                                                    "type": "string",
-                                                    "title": "Database Name",
-                                                    "pattern": "^[a-zA-Z0-9_]{1,64}$",
-                                                    "fieldDescription": [
-                                                        {
-                                                            "type": "string",
-                                                            "description": ""
-                                                        }
-                                                    ]
-                                                },
-                                                "username": {
-                                                    "type": "string",
-                                                    "title": "Database Username",
-                                                    "fieldDescription": [
-                                                        {
-                                                            "type": "string",
-                                                            "description": ""
-                                                        }
-                                                    ]
-                                                },
-                                                "password": {
-                                                    "type": "string",
-                                                    "title": "Database Password",
-                                                    "fieldDescription": [
-                                                        {
-                                                            "type": "string",
-                                                            "description": ""
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        },
-                                        "schemaInfo": {
-                                            "title": "Schema Information",
-                                            "type": "object",
-                                            "properties": {
-                                                "table": {
-                                                    "title": "Table Name",
-                                                    "type": "string",
-                                                    "pattern": "^[a-zA-Z_][a-zA-Z0-9_]{0,62}$",
-                                                    "fieldDescription": [
-                                                        {
-                                                            "type": "string",
-                                                            "description": ""
-                                                        }
-                                                    ]
-                                                },
-                                                "timestampColumn": {
-                                                    "title": "Timestamp Column",
-                                                    "type": "string",
-                                                    "fieldDescription": [
-                                                        {
-                                                            "type": "string",
-                                                            "description": ""
-                                                        }
-                                                    ]
-                                                }
-                                            }
-                                        }
-                                    }
+                                    "type": "string",
+                                    "description": "Enter the name of timetamp column from your table.A timestamp column typically refers to a column that records the date and time when a particular row of data was added or last modified. This type of column is often used to track changes to records within a table, providing valuable information for auditing, versioning, or ensuring data integrity"
                                 }
                             ]
                         }
                     }
                 },
-                "operations_config": {
+                "operations-config": {
                     "title": "Operations Configuration",
                     "type": "object",
                     "properties": {
-                        "batch_size": {
+                        "batch-size": {
                             "type": "number",
                             "title": "Batch Size",
                             "default": 100,
                             "fieldDescription": [
                                 {
                                     "type": "string",
-                                    "description": ""
+                                    "description": "Enter the number of batches."
                                 }
                             ]
                         },
-                        "max_batches": {
+                        "max-batches": {
                             "type": "number",
                             "title": "Maximum Batches",
                             "default": 10,
                             "fieldDescription": [
                                 {
                                     "type": "string",
-                                    "description": ""
+                                    "description": "Enter the maximum number of batches."
                                 }
                             ]
                         },
-                        "pollingInterval": {
+                        "polling-interval": {
                             "type": "string",
                             "title": "Polling Interval",
-                            "enum": [
-                                "Once",
-                                "Periodic"
-                            ],
-                            "fieldDescription": [
-                                {
-                                    "type": "string",
-                                    "description": "Select polling interval"
-                                }
-                            ]
+                            "enum": ["Once", "Periodic"],
+                            "fieldDescription": [{
+                                "type": "string",
+                                "description": "Select polling interval"
+                            }]
                         }
                     },
                     "dependencies": {
-                        "pollingInterval": {
+                        "polling-interval": {
                             "oneOf": [
                                 {
                                     "properties": {
-                                        "pollingInterval": {
+                                        "polling-interval": {
                                             "enum": [
                                                 "Periodic"
                                             ]
@@ -181,29 +121,26 @@
                                         "schedule": {
                                             "type": "string",
                                             "title": "Schedule",
-                                            "enum": [
-                                                "Hourly",
-                                                "Daily",
-                                                "Weekly",
-                                                "Monthly"
-                                            ],
-                                            "fieldDescription": [
-                                                {
-                                                    "type": "string",
-                                                    "description": ""
-                                                }
-                                            ]
+                                            "enum": ["Hourly", "Daily", "Weekly", "Monthly"]
                                         }
                                     },
-                                    "required": [
-                                        "schedule"
-                                    ]
+                                    "required": ["schedule"]
+                                },
+                                {
+                                    "properties": {
+                                        "polling-interval": {
+                                            "enum": [
+                                                "Once"
+                                            ]
+                                        }
+                                    }
                                 }
                             ]
                         }
                     }
                 }
-            }
+            },
+            "required": ["source", "operations-config"]
         },
         "properties": {
             "connector_config": {
