@@ -14,7 +14,7 @@
                             "fieldDescription": [
                                 {
                                     "type": "string",
-                                    "description": "It is recommended to create a new user and grant only SELECT permission on the table above. The table needs to have a timestamp field. Periodically we will look for records updated/created based on the selected timestamp field and will sync them to our platform."
+                                    "description": "Enter appropriate database information."
                                 }
                             ],
                             "properties":{
@@ -26,7 +26,7 @@
                                 "host": {
                                     "type": "string",
                                     "title": "Host",
-                                    "pattern": "/^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/[^\s]*)?|localhost(?:\/[^\s]*)?|((?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/"
+                                    "pattern":"^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\\-]*[A-Za-z0-9])$"
                                 },
                                 "port": {
                                     "type": "number",
@@ -56,7 +56,7 @@
                             "fieldDescription": [
                                 {
                                     "type": "string",
-                                    "description": "Enter the name of Database table."
+                                    "description": "It is recommended to create a new user and grant only SELECT permission on the table above."
                                 }
                             ]
                         },
@@ -66,7 +66,7 @@
                             "fieldDescription": [
                                 {
                                     "type": "string",
-                                    "description": "Enter the name of timetamp column from your table.A timestamp column typically refers to a column that records the date and time when a particular row of data was added or last modified. This type of column is often used to track changes to records within a table, providing valuable information for auditing, versioning, or ensuring data integrity"
+                                    "description": "The table needs to have a timestamp field. Periodically we will look for records updated/created based on the selected timestamp field and will sync them to our platform."
                                 }
                             ]
                         }
@@ -143,13 +143,6 @@
             "required": ["source", "operations-config"]
         },
         "properties": {
-            "connector_config": {
-                "connection_info": {
-                    "password": {
-                        "ui:widget": "password"
-                    }
-                }
-            },
             "operations_config": {
                 "batch_size": {
                     "ui:readonly": true
