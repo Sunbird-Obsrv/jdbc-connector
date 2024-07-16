@@ -83,7 +83,7 @@
                             "fieldDescription": [
                                 {
                                     "type": "string",
-                                    "description": "Enter the number of batches."
+                                    "description": "Batch Size refers to the number of records we pull per query. The higher the batch size, the faster we pull the records. However, if the batch size is too high, the query may time out."
                                 }
                             ]
                         },
@@ -94,7 +94,7 @@
                             "fieldDescription": [
                                 {
                                     "type": "string",
-                                    "description": "Enter the maximum number of batches."
+                                    "description": "Maximum Batches refers to the maximum number of batches we are allowed to pull. Once the max-batches is reached, the query stops, and rest of the data is pulled in the next run."
                                 }
                             ]
                         },
@@ -104,7 +104,7 @@
                             "enum": ["Once", "Periodic"],
                             "fieldDescription": [{
                                 "type": "string",
-                                "description": "Select polling interval"
+                                "description": "Depending on the batch-size and maximum-batches, select an appropriate schedule. A shorter schedule with a large batch-size and max-batches will result in parallel queries, which may result in more load on the database."
                             }]
                         }
                     },
@@ -121,7 +121,13 @@
                                         "schedule": {
                                             "type": "string",
                                             "title": "Schedule",
-                                            "enum": ["Hourly", "Daily", "Weekly", "Monthly"]
+                                            "enum": ["Hourly", "Daily", "Weekly", "Monthly"],
+                                            "fieldDescription": [
+                                                {
+                                                    "type": "string",
+                                                    "description": "Maximum Batches refers to the maximum number of batches we are allowed to pull. Once the max-batches is reached, the query stops, and rest of the data is pulled in the next run."
+                                                }
+                                            ]
                                         }
                                     },
                                     "required": ["schedule"]
