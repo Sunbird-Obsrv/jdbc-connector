@@ -1,0 +1,108 @@
+{
+    "type": "connector",
+    "metadata": {
+        "id": "jdbc-connector",
+        "name": "JDBC Connector",
+        "version": "1.0.0",
+        "tenant": "multiple",
+        "type": "source",
+        "category": "Database",
+        "description": "The JDBC Connector is used to move data from any JDBC Complaint Database to the Obsrv platform",
+        "technology": "scala",
+        "runtime": "spark",
+        "licence": "MIT",
+        "owner": "Sunbird",
+        "main_class": "org.sunbird.obsrv.connector.JDBCConnector",
+        "main_program": "jdbc-connector-1.0.0.jar"
+    },
+    "connectors": [
+        {
+            "id": "postgres-connector",
+            "name": "PostgreSQL",
+            "description": "The PostgreSQL Connector is used to move data from any Postgres Table to the Obsrv platform",
+            "icon": "https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg",
+            "config": {
+                "source": {
+                    "database": {
+                        "type": "postgresql",
+                        "host": "<db-host>",
+                        "port": 5432,
+                        "name": "<database-name>",
+                        "username": "postgres",
+                        "pwd": "postgres"
+                    },
+                    "table": "<table-name>",
+                    "timestamp-column": "<timestamp-column>",
+                    "batch-size": "<batch-size>",
+                    "max-batches": "<max-batches>"
+                }
+            }
+        },
+        {
+            "id": "mysql-connector",
+            "name": "MySQL",
+            "description": "The MySQL Connector is used to move data from any MySQL Table to the Obsrv platform",
+            "icon": "https://upload.wikimedia.org/wikipedia/en/6/62/MySQL.svg",
+            "config": {
+                "source": {
+                    "database": {
+                        "type": "mysql",
+                        "host": "<db-host>",
+                        "port": 3306,
+                        "name": "<database-name>",
+                        "username": "root",
+                        "pwd": "root"
+                    },
+                    "table": "<table-name>",
+                    "timestamp-column": "<timestamp-column>",
+                    "batch-size": "<batch-size>",
+                    "max-batches": "<max-batches>"
+                }
+            }
+        },
+        {
+            "id": "oracle-connector",
+            "name": "Oracle",
+            "description": "The Oracle Connector is used to move data from any Oracle Table to the Obsrv platform",
+            "icon": "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg",
+            "config": {
+                "source": {
+                    "database": {
+                        "type": "oracle",
+                        "host": "<db-host>",
+                        "port": 1521,
+                        "name": "<database-name>",
+                        "username": "system",
+                        "pwd": "oracle"
+                    },
+                    "table": "<table-name>",
+                    "timestamp-column": "<timestamp-column>",
+                    "batch-size": "<batch-size>",
+                    "max-batches": "<max-batches>"
+                }
+            }
+        },
+        {
+            "id": "mssql-connector",
+            "name": "MS SQL",
+            "description": "The MS SQL Connector is used to move data from any MS SQL Table to the Obsrv platform",
+            "icon": "https://upload.wikimedia.org/wikipedia/commons/2/29/Microsoft_SQL_Server_Logo.svg",
+            "config": {
+                "source": {
+                    "database": {
+                        "type": "mssql",
+                        "host": "<db-host>",
+                        "port": 1433,
+                        "name": "<database-name>",
+                        "username": "sa",
+                        "pwd": "password"
+                    },
+                    "table": "<table-name>",
+                    "timestamp-column": "<timestamp-column>",
+                    "batch-size": "<batch-size>",
+                    "max-batches": "<max-batches>"
+                }
+            }
+        }
+    ]
+}
