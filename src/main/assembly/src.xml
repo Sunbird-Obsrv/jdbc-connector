@@ -22,7 +22,6 @@
             <outputDirectory>/</outputDirectory>
             <includes>
                 <include>metadata.json</include>
-                <include>jdbc-connector.conf</include>
                 <include>ui-config.json</include>
             </includes>
         </fileSet>
